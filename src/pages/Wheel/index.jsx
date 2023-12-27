@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import WheelComponent from 'react-wheel-of-prizes'
+import WheelComponent from 'react-wheel-of-prizes-react-upgrade'
 
 export const Wheel = () => {
   const segments = [
