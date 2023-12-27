@@ -2,7 +2,7 @@ import Container from "@mui/material/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { Header } from "./components";
-import { Home, FullPost, Registration, AddPost, Login, Chat, Error, Test } from "./pages";
+import { Home, FullPost, Registration, AddPost, Login, Chat, Error, Wheel } from "./pages";
 import { fetchAuthMe, selectIsAuth } from './redux/slices/auth';
 import React from "react";
  
@@ -24,7 +24,7 @@ function App() {
           <Route path="/me/:id" element={<Chat />} />
           <Route path="/guild/:guild/:channel" element={<Chat />} />
           <Route path="*" element={<Error />} />
-          <Route path="/test" element={<Test />} />
+          <Route path="/wheel" element={<Wheel />} />
         </Routes>
       </Container>
     </>

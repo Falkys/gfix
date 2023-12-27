@@ -5,4 +5,4 @@ export { Registration } from "./Registration";
 export { Login } from "./Login";
 export { Chat } from "./Chat";
 export { Error } from "./404";
-export { Test } from "./test";
+export { Wheel } from "./Wheel";
