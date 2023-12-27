@@ -31,7 +31,7 @@ export const Home = () => {
     <div style={{ marginTop: 100 }}>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
         <Tab label="Новые" />
-        <Tab label="Популярные" />
+        <Tab label="Популярны" />
       </Tabs>
       <Grid spacing={4} {...(!isMobile ? { container: true } : {})}>
         <Grid xs={8} item>
