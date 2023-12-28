@@ -1,10 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from '../../axios';
 
-export const fetchWheel = createAsyncThunk('games/fetchWheel', async () => {
-  const { data } = await axios.get('/game/wheel');
-  return data;
-}); 
+export const fetchWheel = createAsyncThunk('games/fetchWheel' , async (_, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.get('/game/wheel');
+    return data;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
 export const fetchRoulette = createAsyncThunk('games/fetchRoulette', async () => {
   const { data } = await axios.get('/game/roulette');
@@ -35,9 +39,10 @@ const gamesSlice = createSlice({
       state.wheel.items = action.payload;
       state.wheel.status = 'loaded';
     },
-    [fetchWheel.rejected]: (state) => {
+    [fetchWheel.rejected]: (state, action) => {
       state.wheel.items = [];
       state.wheel.status = 'error';
+      state.error = action.payload;
     },
     [fetchRoulette.pending]: (state) => {
       state.roulette.items = [];
