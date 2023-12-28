@@ -14,6 +14,7 @@ function App() {
   }, []);
   return (
     <>
+    <Header />
       <Container maxWidth="lg">
         <Routes>
           <Route path="/" element={<Home />} />

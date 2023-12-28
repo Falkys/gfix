@@ -1,47 +1,53 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { Wheel as Wheeel } from 'react-custom-roulette'
+import { fetchWheel } from "../../redux/slices/games";
 
-import WheelComponent from 'react-wheel-of-prizes-react-upgrade'
+const data = [
+  { option: '30.000$', style: { backgroundColor: 'black', textColor: 'white' } },
+  { option: '10.000$', style: { backgroundColor: 'white', textColor: 'black' } },
+  { option: 'Moonlight', style: { backgroundColor: 'black', textColor: 'white' } },
+  { option: '5.000$', style: { backgroundColor: 'white', textColor: 'black' } },
+  { option: '50.000$', style: { backgroundColor: 'black', textColor: 'white' } },
+  { option: 'LoveMZ', style: { backgroundColor: 'white', textColor: 'black' } },
+  { option: 'Moonlight', style: { backgroundColor: 'black', textColor: 'white' } },
+  { option: '13.000$', style: { backgroundColor: 'white', textColor: 'black' } },
+]
 
 export const Wheel = () => {
-  const segments = [
-    'better luck next time',
-    'won 70',
-    'won 10',
-    'better luck next time',
-    'won 2',
-    'won uber pass',
-    'better luck next time',
-    'won a voucher'
-  ]
-  const segColors = [
-    '#EE4040',
-    '#F0CF50',
-    '#815CD1',
-    '#3DA5E0',
-    '#34A24F',
-    '#F9AA1F',
-    '#EC3F3F',
-    '#FF9000'
-  ]
-  const onFinished = (winner) => {
-    console.log(winner)
+  const dispatch = useDispatch();
+  const [mustSpin, setMustSpin] = useState(false);
+  const [prizeNumber, setPrizeNumber] = useState(0);
+ 
+  const handleSpinClick = () => {
+    if (!mustSpin) {
+      const newPrizeNumber = 2;
+      setPrizeNumber(newPrizeNumber);
+      setMustSpin(true);
+    }
   }
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await dispatch(fetchWheel());
+      console.log(response)
+    };
+    fetchData();
+  }, []);
+
+
   return (
-    <>
-    <WheelComponent
-      segments={segments}
-      segColors={segColors}
-      winningSegment='won 10'
-      onFinished={(winner) => onFinished(winner)}
-      primaryColor='black'
-      contrastColor='gray'
-      buttonText='Spin'
-      isOnlyOnce={false}
-      size={190}
-      upDuration={500}
-      downDuration={1000}
-      fontFamily='Arial'
-    />
-    </>
+    <div style={{ marginTop: 100 }}>
+      <Wheeel
+        mustStartSpinning={mustSpin}
+        prizeNumber={1}
+        data={data}
+
+        onStopSpinning={() => {
+          setMustSpin(false);
+        }}
+      />
+      <button onClick={handleSpinClick}>SPINn</button>
+    </div>
   )
 }
