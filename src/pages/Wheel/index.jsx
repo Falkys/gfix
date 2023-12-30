@@ -56,16 +56,10 @@ export const Wheel = () => {
     }
     }
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      
-    };
-    fetchData();
-  }, []);
 
 
   return (
-    <div style={{ marginTop: 100 }}>
+    <div style={{ height: "100%", background: "#04020a", marginTop: 200 }}>
       <Wheeel
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
@@ -75,7 +69,9 @@ export const Wheel = () => {
           setMustSpin(false);
         }}
       />
-      <Button color="secondary" onClick={handleSpinClick}>SPINn</Button>
+      <Button onClick={handleSpinClick} color="secondary" type='submit' size="large" variant="outlined" >
+        Крутить
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -84,7 +80,7 @@ export const Wheel = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-           Упссс
+           Упссс 
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {error}
