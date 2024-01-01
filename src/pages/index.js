@@ -6,3 +6,5 @@ export { Login } from "./Login";
 export { Chat } from "./Chat";
 export { Error } from "./404";
 export { Wheel } from "./Wheel";
+export { Test } from "./test";
+export { Me } from "./Me";

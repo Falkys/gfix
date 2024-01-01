@@ -52,8 +52,6 @@ const ItemSix = styled(Paper)(({ teme }) => ({
   zIndex: 100000,
 }));
 
-const URL = 'https://backend.cherryblood.repl.co';
-const socket = io(URL);
 
 export const MessengerBlock = () => {
   const opponent1 = useSelector(state => state.auth.dataOne);

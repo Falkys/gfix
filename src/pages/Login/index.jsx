@@ -49,7 +49,7 @@ if ('token' in data.payload) {
 
   }
    if (isAuth) {
-     return <Navigate to="/me/1" />
+     return <Navigate to="/me" />
    }
   return (
     <Paper style={{ marginTop: 100 }} classes={{ root: styles.root }}>

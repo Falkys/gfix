@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { Wheel as Wheeel } from 'react-custom-roulette'
 import { fetchWheel } from "../../redux/slices/games";
+import { fetchAuthMe } from "../../redux/slices/auth";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
+import { useNavigate } from 'react-router-dom';
 const data = [
   { option: '30.000$', style: { backgroundColor: 'black', textColor: 'white' } },
   { option: '10.000$', style: { backgroundColor: 'white', textColor: 'black' } },
@@ -31,18 +32,27 @@ const style = {
 };
 
 export const Wheel = () => {
+  
+  const dispatch = useDispatch();
    const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
    const [error, setError] = React.useState("Loading...")
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const dispatch = useDispatch();
+  const handleOpen1 = () => setOpen1(true);
+  const handleClose1 = () => {
+    setOpen1(false)
+    dispatch(fetchAuthMe())
+    }
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
- 
+  const [text, setText] = useState("");
+  const [winnedItem, setWinnedItem] = useState("");
+    const navigate = useNavigate();
   const handleSpinClick = async () => {
     if (!mustSpin) {
       const response = await dispatch(fetchWheel());
-      console.log(response)
+      setWinnedItem(response.payload.winPrize)
       if (response.error) {
         setError(response.payload.message)
         handleOpen()
@@ -56,16 +66,29 @@ export const Wheel = () => {
     }
     }
 
+  const handleClosing = () => {
+    if (winnedItem.type === "money") {
+    setText(`Поздровляю , вы выйграли ${winnedItem.amount}$ в UnbelievaBoat Bot, Вывести их можно в профиле`)
+    } else if (winnedItem.type === "role") {
+      setText(`Поздровляю , вы выйграли  роль ${winnedItem.name}, Вывести ее можно в профиле`)
+    }
+    handleOpen1()
+  }
 
+  const handleMe = () => {
+    navigate("/me")
+    dispatch(fetchAuthMe())
+  }
 
   return (
-    <div style={{ height: "100%", background: "#04020a", marginTop: 200 }}>
+    <div style={{ height: "100%", marginTop: 200 }}>
       <Wheeel
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
         data={data}
 
         onStopSpinning={() => {
+          handleClosing()
           setMustSpin(false);
         }}
       />
@@ -85,6 +108,24 @@ export const Wheel = () => {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {error}
           </Typography>
+        </Box>
+      </Modal>
+      <Modal
+        open={open1}
+        onClose={handleClose1}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+           Поздровляю 
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {text}
+          </Typography>
+          <Button onClick={handleMe} color="primary" type='submit' size="large" variant="outlined" >
+            Перейти
+          </Button>
         </Box>
       </Modal>
     </div>

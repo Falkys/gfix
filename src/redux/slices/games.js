@@ -10,6 +10,15 @@ export const fetchWheel = createAsyncThunk('games/fetchWheel' , async (_, { reje
   }
 });
 
+export const fetchWithdraw = createAsyncThunk('games/fetchWithdraw' , async (params, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.post('/game/withdraw', params);
+    return data;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
 export const fetchRoulette = createAsyncThunk('games/fetchRoulette', async () => {
   const { data } = await axios.get('/game/roulette');
   return data;
@@ -24,6 +33,10 @@ const initialState = {
     items: [],
     status: 'loading'
   },
+  withdraw: {
+    items: [],
+    status: 'loading'
+  }
 };
 
 const gamesSlice = createSlice({
@@ -43,6 +56,19 @@ const gamesSlice = createSlice({
       state.wheel.items = [];
       state.wheel.status = 'error';
       state.error = action.payload;
+    },
+    [fetchWithdraw.pending]: (state) => {
+      state.withdraw.items = [];
+      state.withdraw.status = 'loading';
+    },
+    [fetchWithdraw.fulfilled]: (state, action) => {
+      state.withdraw.items = action.payload;
+      state.withdraw.status = 'loaded';
+    },
+    [fetchWithdraw.rejected]: (state, action) => {
+      state.withdraw.items = [];
+      state.withdraw.status = 'error';
+      state.withdraw.error = action.payload;
     },
     [fetchRoulette.pending]: (state) => {
       state.roulette.items = [];
