@@ -10,6 +10,15 @@ export const fetchAuth = createAsyncThunk('auth/fetchAuth', async (params, { rej
   }
 }); 
 
+export const fetchDId = createAsyncThunk('auth/fetchDId', async (params, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.post('/auth/discord', params);
+    return data;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+}); 
+
 export const fetchAuthOne = createAsyncThunk('auth/fetchAuthOne', async (params, { rejectWithValue }) => {
   try {
     const { data } = await axios.post('/auth/user', params);
@@ -41,6 +50,10 @@ export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe' , async (_, { rej
 const initialState = {
   data: null,
   status: 'loading',
+  dId: {
+    data: null,
+    status: 'loading',
+  }
 };
 
 const authSlice = createSlice({
@@ -64,6 +77,19 @@ const authSlice = createSlice({
       state.status = 'error';
       state.data = null;
       state.error = action.payload;
+    },
+    [fetchDId.pending]: (state) => {
+      state.dId.status = "loading";
+      state.dId.data = null;
+    },
+    [fetchDId.fulfilled]: (state, action) => {
+      state.dId.status = "loaded";
+      state.dId.data = action.payload;
+    },
+    [fetchDId.rejected]: (state, action) => {
+      state.dId.status = 'error';
+      state.dId.data = null;
+      state.dId.error = action.payload;
     },
     [fetchAuthOne.pending]: (state) => {
       state.status = "loading";

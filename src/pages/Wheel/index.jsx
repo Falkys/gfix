@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useNavigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom"
 const data = [
   { option: '30.000$', style: { backgroundColor: 'black', textColor: 'white' } },
   { option: '10.000$', style: { backgroundColor: 'white', textColor: 'black' } },
@@ -32,7 +33,6 @@ const style = {
 };
 
 export const Wheel = () => {
-  
   const dispatch = useDispatch();
    const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
@@ -66,6 +66,11 @@ export const Wheel = () => {
     }
     }
 
+
+  if (!window.localStorage.getItem('token')) {
+    return <Navigate to="/login" />;
+  }
+  
   const handleClosing = () => {
     if (winnedItem.type === "money") {
     setText(`Поздровляю , вы выйграли ${winnedItem.amount}$ в UnbelievaBoat Bot, Вывести их можно в профиле`)
