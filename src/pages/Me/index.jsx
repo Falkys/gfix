@@ -35,8 +35,6 @@ const style = {
 
 
 export const Me = () => { 
-
-  
   React.useEffect(() => {
     document.title = "Profile";
   }, []);
@@ -90,17 +88,23 @@ export const Me = () => {
         <Skeleton variant="text" sx={{ fontSize: '1rem' }} /> }
         
       </div>
+      {userdata ?
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column", padding: 10 }}>
       <Button onClick={handleMe} color="primary" type='submit' size="large" variant="outlined" >
           Указать айди дискорд
         </Button>
             </div>
+      : 
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: "column", padding: 10 }}>
+          <Skeleton variant="rect" width="200px" height={50} />
+        </div>}
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', flexDirection: "column", padding: 10 }}>
       {userdata ? <ReplayIcon onClick={handleReload} /> : <Skeleton variant="circular" width={30} height={30} />}
       </div>
-      {userdata && userdata.prizes && userdata.prizes.map((item) => (
-        <Card data={item} key={item.id}></Card>
-      ))}
+      {userdata ? userdata.prizes.map((item) => (
+          <Card data={item} key={item.id}></Card>
+        )) : <Skeleton variant="rect" width="100%" height={250} />}
+
 
       
       <Modal
